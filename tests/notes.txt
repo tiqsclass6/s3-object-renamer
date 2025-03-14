@@ -1,0 +1,14 @@
+
+manually invoke lambda:
+
+aws lambda invoke --function-name s3_rename_function \
+  --cli-binary-format raw-in-base64-out \
+  --payload file://assets/event.json assets/response.json
+
+
+verify JSON formatting:
+
+jq . assets/event.json
+
+file format issue fix:
+ dos2unix assets/event.json
