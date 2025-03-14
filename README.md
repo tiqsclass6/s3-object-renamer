@@ -19,22 +19,25 @@ This project sets up an AWS Lambda function to automatically rename files upload
 
 ## Setup Instructions
 
-### 1. Clone the Repository
+### 1. Move to your projects folder
+Move into your projects folder inside the TheoWAF directory on your computer for example. 
 
-Move into your projects folder inside the TheoWAF directory on your computer
+### 2. Clone the Repository
+
+
 ```sh
 git clone https://github.com/aaron-dm-mcdonald/s3-object-renamer.git lambda-rename-s3
 cd lambda-rename-s3
 ```
 
-### 2. Initialize and Apply Terraform
+### 3. Initialize and Apply Terraform
 
 ```sh
 terraform init
 terraform apply -auto-approve
 ```
 
-### 3. Get the Bucket Name
+### 4. Get the Bucket Name
 
 Note the bucket name during terraform runtime or execute:
 
@@ -42,13 +45,13 @@ Note the bucket name during terraform runtime or execute:
 terraform output s3_bucket_name
 ```
 
-### 4. Upload a File (Triggering Lambda)
+### 5. Upload a File (Triggering Lambda)
 
 ```sh
 aws s3 cp <LOCAL-FILE-PATH> s3://<YOUR-BUCKET-NAME>/<YOUR-FILE-KEY>
 ```
 
-### 5. List Files in Bucket
+### 6. List Files in Bucket
 
 ```sh
 aws s3 ls s3://<YOUR-BUCKET-NAME>/
