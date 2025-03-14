@@ -6,8 +6,10 @@ This project sets up an AWS Lambda function to automatically rename files upload
 
 ## Architecture
 
-- **S3 Bucket**: Stores uploaded files and triggers Lambda.
-- **Lambda Function**: Processes S3 events and renames objects.
+- **Lambda Function:** Deployed as `s3_rename_function`, listens for S3 events, renames files by adding "renamed-" prefix, and deletes the original file.
+- **S3 Bucket:** Created with a prefix (e.g., "rename-test-"); stores files to be renamed.
+- **S3 Event Notification:** Configured on the S3 bucket to trigger the Lambda function when a new object is created.
+- **IAM Roles and Policies:** An IAM role is assumed by the Lambda function with an attached policy that grants permissions to interact with S3 and write logs to CloudWatch.
 
 ## Tools
 
