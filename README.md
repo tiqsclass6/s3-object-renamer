@@ -75,7 +75,7 @@ aws lambda invoke --function-name s3_rename_function \
 
 
 4) 
-    - Run ```cat tests/response.json``` to view contents. Exoected results are "null"
+    - Run ```cat tests/response.json``` to view contents. Expected results are "null"
     - Run ```cat tests/output.txt``` to view output of the command. Expected results are a HTTP status code of 200.
    
 
