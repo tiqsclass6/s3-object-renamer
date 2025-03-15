@@ -28,43 +28,54 @@ This project sets up an AWS Lambda function to automatically rename files upload
 
 ## Quick Start: ClickOps Guide
 
-### 1. Open the AWS Console
-Open tabs for the S3, Lambda, and IAM dashboards
 
-### 2. Setup IAM Role
-- The Lambda needs permissons to access cloud watch logs and to be able to access S3. 
-- Lambda does not really have an identity, as such, it will assume (using the STS) a role we create. 
+### **1. Open the AWS Console**  
+Open tabs for the **S3**, **Lambda**, and **IAM** dashboards.  
 
-1) Open the IAM dashboard
-2) Go to Roles, create a new role
-3) Leave default selection for "Trusted entity type", which is "AWS Service" (given that Lambda will use this role and is a service)
-4) "Use Case" is set to "Lambda" then click next
-5) Choose the following two policies: "AWSLambdaBasicExecutionRole"; "AmazonS3FullAccess"
-6) Click next, then name the role, then review selection and click "Create Role" 
+### **2. Set Up IAM Role**  
+- The Lambda function needs permissions to access **CloudWatch Logs** and **S3**.  
+- Since Lambda does not have a persistent identity, it assumes a role using **AWS STS (Security Token Service)**.  
 
-### 3. Create Lambda 
-- Go [here](src/lambda_function.py) and copy the code.
+#### **Steps:**  
+1. Open the **IAM** dashboard.  
+2. Navigate to **Roles** → **Create role**.  
+3. Leave the default selection for **Trusted entity type** as **AWS Service** (since Lambda will assume this role).  
+4. Under **Use case**, select **Lambda**, then click **Next**.  
+5. Attach the following policies:  
+   - **AWSLambdaBasicExecutionRole** (for CloudWatch logging).  
+   - **AmazonS3FullAccess** (consider a more restrictive policy if needed).  
+6. Click **Next**, name the role, review the settings, and click **Create Role**.  
 
-1) Open the Lambda dashboard and choose "Create a function"
-2) Name the function and choose a new python runtime (like 3.11)
-3) Go to "Change default execution role"
-    - Go to "Use an existing role"
-    - Under the "Existing Role" drop down menu, select the role you made in step 2
-4) Click on "Create Function"
-5) Scroll down a bit, then paste the python code in the code editor and click on the deploy button
+### **3. Create a Lambda Function**  
+- Copy the required code from [here](src/lambda_function.py).  
 
-### 4. Create S3 Bucket
-1) Go to the S3 dashboard 
-2) Create a bucket with default settings
-3) Open the bucket you created and go to the "Properties" tab
-4) Go the "Event notifications" section 
-    - Select "create event notification"
-    - Name the notification (ex. "on upload")
-    - In Event Type section, select "s3:ObjectCreated:Put" under the object creation section
-    - In the Destination section go to "Choose your Lambda function" and use the drop down menu and choose your function
-    - Go to save changes
+#### **Steps:**  
+1. Open the **Lambda** dashboard and click **Create function**.  
+2. Enter a **Function name** and select **Python 3.11** as the runtime.  
+3. Under **Execution role**:  
+   - Click **Change default execution role**.  
+   - Select **Use an existing role**.  
+   - From the **Existing Role** dropdown, choose the role created in Step 2.  
+4. Click **Create function**.  
+5. Scroll down to the code editor, paste the Python code, and click **Deploy**.  
 
-### 5. Test project by uploading an object to the new bucket
+### **4. Create an S3 Bucket & Configure Event Notification**  
+
+#### **Steps:**  
+1. Open the **S3** dashboard.  
+2. Click **Create bucket** and proceed with the default settings.  
+3. Open the newly created bucket and navigate to the **Properties** tab.  
+4. In the **Event notifications** section:  
+   - Click **Create event notification**.  
+   - Enter a **Notification name** (e.g., `"on-upload"`).  
+   - Under **Event types**, select **s3:ObjectCreated:Put** (triggers on new file uploads).  
+   - Under **Destination**, select **Choose your Lambda function** and pick the function created in Step 3.  
+   - Click **Save changes**.  
+
+### **5. Test the Setup**  
+- Upload an object to the new S3 bucket.  
+- Verify that the Lambda function is triggered by checking **CloudWatch Logs** for execution details.  
+
 
 ## Terraform Deploymen Instructions
 
