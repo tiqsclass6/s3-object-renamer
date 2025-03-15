@@ -26,8 +26,47 @@ This project sets up an AWS Lambda function to automatically rename files upload
 - **Boto3**: The AWS Python SDK and client library to wrap API calls
 - **AWS CLI Utility**: Used for quicker interactions and streamlining workflow
 
+## Quick Start: ClickOps Guide
 
-## Setup Instructions
+### 1. Open the AWS Console
+Open tabs for the S3, Lambda, and IAM dashboards
+
+### 2. Setup IAM Role
+- The Lambda needs permissons to access cloud watch logs and to be able to access S3. 
+- Lambda does not really have an identity, as such, it will assume (using the STS) a role we create. 
+
+1) Open the IAM dashboard
+2) Go to Roles, create a new role
+3) Leave default selection for "Trusted entity type", which is "AWS Service" (given that Lambda will use this role and is a service)
+4) "Use Case" is set to "Lambda" then click next
+5) Choose the following two policies: "AWSLambdaBasicExecutionRole"; "AmazonS3FullAccess"
+6) Click next, then name the role, then review selection and click "Create Role" 
+
+### 3. Create Lambda 
+- Go [here](src/lambda_function.py) and copy the code.
+
+1) Open the Lambda dashboard and choose "Create a function"
+2) Name the function and choose a new python runtime (like 3.11)
+3) Go to "Change default execution role"
+    - Go to "Use an existing role"
+    - Under the "Existing Role" drop down menu, select the role you made in step 2
+4) Click on "Create Function"
+5) Scroll down a bit, then paste the python code in the code editor and click on the deploy button
+
+### 4. Create S3 Bucket
+1) Go to the S3 dashboard 
+2) Create a bucket with default settings
+3) Open the bucket you created and go to the "Properties" tab
+4) Go the "Event notifications" section 
+    - Select "create event notification"
+    - Name the notification (ex. "on upload")
+    - In Event Type section, select "s3:ObjectCreated:Put" under the object creation section
+    - In the Destination section go to "Choose your Lambda function" and use the drop down menu and choose your function
+    - Go to save changes
+
+### 5. Test project by uploading an object to the new bucket
+
+## Terraform Deploymen Instructions
 
 ### 1. Move to your projects folder
 Move into your projects folder inside the TheoWAF directory on your computer for example. 
