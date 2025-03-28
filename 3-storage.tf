@@ -15,9 +15,6 @@ resource "aws_s3_bucket_notification" "rename_notification" {
   depends_on = [aws_lambda_permission.allow_s3]
 }
 
-
-
-
 ############# Test file before lambda
 # Create a local file before uploading it to S3
 resource "local_file" "generated_file" {
@@ -32,5 +29,3 @@ resource "aws_s3_object" "initial_file" {
   source = local_file.generated_file.filename
   depends_on = [local_file.generated_file] # Ensure file is created before upload
 }
-
-
